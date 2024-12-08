@@ -65,7 +65,6 @@ const user = { name: 'Maria', surname: 'Ibañez', country: 'SPA' };
 
 function clone<T>(source: T): T {
   const newUser = { ...source };
-  console.log(newUser);
   return newUser;
 }
 clone(user);
@@ -75,16 +74,39 @@ const a = { name: 'Maria', surname: 'Ibañez', country: 'SPA' };
 const b = { name: 'Luisa', age: 31, married: true };
 // output=> {name: "Maria", age: 31, married: true, surname: "Ibañez", country: "SPA"}
 const merge = <A, B>(source: A, target: B): A & B => {
-  console.log({ ...target, ...source });
   return { ...target, ...source };
 };
 merge(a, b);
 
 //Read Books
-const isBookRead = (listBooks: Books[]): Books[] => {
-  listBooks.filter((book) => {
-    console.log(book.title);
-  });
-  return listBooks;
+const isBookRead = (listBooks: Books[], title: string): boolean => {
+  const book = listBooks.find((book) => book.title === title);
+  return book ? book.isRead : false;
 };
-isBookRead(books);
+console.log(isBookRead(books, 'Devastación')); // true
+console.log(isBookRead(books, 'Canción de hielo y fuego')); // false
+console.log(isBookRead(books, 'Los Pilares de la Tierra')); // false
+
+// Slot Machine
+class SlotMachine {
+  coins: number;
+  constructor() {
+    this.coins = 0;
+  }
+  play(): number {
+    this.coins++;
+    const booleans = [];
+    for (let i = 0; i < 3; i++) {
+      booleans.push(Math.random() >= 0.5);
+    }
+    if (!booleans.every((value) => value)) {
+      console.log('Good luck next time!!');
+    } else {
+      console.log(`Congratulations!!!. You won ${this.coins} coins!!`);
+      this.coins = 0;
+    }
+    return this.coins;
+  }
+}
+const machine1 = new SlotMachine();
+console.log(machine1.play());
